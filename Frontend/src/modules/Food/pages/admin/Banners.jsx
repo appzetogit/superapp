@@ -26,7 +26,12 @@ export default function Banners() {
     // gets its own artwork rather than inheriting Quick's.
     { value: 'medical', label: 'Medical' },
     { value: 'porter', label: 'Porter' },
+    { value: 'services', label: 'Services' },
   ]
+
+  // Sections whose header may be a video rather than a GIF/image. The server
+  // records the resource type at upload, so only the picker needs to know.
+  const VIDEO_SECTIONS = ['services']
 
   // Which section is being managed. Food is first so the page opens on what it
   // has always shown.
@@ -43,6 +48,12 @@ export default function Banners() {
   // matches what the server accepts on its other header-media route rather
   // than the 2 MB that would reject the app's own current artwork.
   const MAX_UPLOAD_BYTES = 50 * 1024 * 1024
+  // The API buffers uploads in memory and caps each file at 25 MB
+  // (middleware/upload.js), so a larger video would fail server-side.
+  const MAX_VIDEO_BYTES = 25 * 1024 * 1024
+
+  const allowsVideo = VIDEO_SECTIONS.includes(activeModule)
+  const isVideoUrl = (url = "") => /\.(mp4|webm|mov|m4v)(\?|$)/i.test(url) || /\/video\/upload\//.test(url)
 
   const [formData, setFormData] = useState({
     title: "",
@@ -163,14 +174,21 @@ export default function Banners() {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0]
     if (file) {
-      if (file.size > MAX_UPLOAD_BYTES) {
-        alert(`File must be ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))}MB or less.`)
+      const isVideo = file.type.startsWith('video/')
+      if (isVideo && !allowsVideo) {
+        alert(`Videos can only be used in the ${VIDEO_SECTIONS.map((v) => HERO_BANNER_MODULES.find((m) => m.value === v)?.label).join(', ')} section.`)
+        return
+      }
+      const limit = isVideo ? MAX_VIDEO_BYTES : MAX_UPLOAD_BYTES
+      if (file.size > limit) {
+        alert(`File must be ${Math.round(limit / (1024 * 1024))}MB or less.`)
         return
       }
       setFormData(prev => ({
         ...prev,
         file,
-        preview: URL.createObjectURL(file)
+        preview: URL.createObjectURL(file),
+        previewIsVideo: isVideo,
       }))
     }
   }
@@ -472,7 +490,9 @@ export default function Banners() {
                 Header Artwork <span className="text-red-500">*</span>
               </label>
               <p className="text-sm text-slate-600 mb-3">
-                A GIF plays as the animated header at the top of the {activeModuleLabel} screen.
+                {allowsVideo
+                  ? `A video or GIF plays as the animated header at the top of the ${activeModuleLabel} screen.`
+                  : `A GIF plays as the animated header at the top of the ${activeModuleLabel} screen.`}
               </p>
               <div 
                 onClick={() => fileInputRef.current?.click()}
@@ -482,12 +502,16 @@ export default function Banners() {
                   type="file"
                   ref={fileInputRef}
                   onChange={handleFileChange}
-                  accept="image/*"
+                  accept={allowsVideo ? "image/*,video/mp4,video/webm,video/quicktime" : "image/*"}
                   className="hidden"
                 />
                 {formData.preview ? (
                   <div className="relative w-full max-h-48 flex justify-center items-center overflow-hidden rounded-lg">
-                    <img src={formData.preview} className="max-h-40 object-contain" alt="Preview" />
+                    {formData.previewIsVideo ? (
+                      <video src={formData.preview} className="max-h-40 object-contain" autoPlay muted loop playsInline />
+                    ) : (
+                      <img src={formData.preview} className="max-h-40 object-contain" alt="Preview" />
+                    )}
                   </div>
                 ) : (
                   <>
@@ -495,7 +519,9 @@ export default function Banners() {
                     <p className="text-sm font-medium text-blue-600 mb-1">Click to upload</p>
                     <p className="text-xs text-slate-500 mb-2">Or drag and drop</p>
                     <p className="text-xs text-slate-500">
-                      GIF, JPG, JPEG or PNG · up to {Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB · 2:1 works best
+                      {allowsVideo
+                        ? `MP4, WEBM or MOV up to ${Math.round(MAX_VIDEO_BYTES / (1024 * 1024))} MB · GIF, JPG or PNG up to ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB · 2:1 works best`
+                        : `GIF, JPG, JPEG or PNG · up to ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB · 2:1 works best`}
                     </p>
                     <p className="text-xs text-amber-600 mt-1">
                       Every customer downloads this each time the screen opens — keep it as small as it can look good.
@@ -603,11 +629,22 @@ export default function Banners() {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
-                              <img
-                                src={banner.imageUrl}
-                                alt={banner.title || "Banner"}
-                                className="w-full h-full object-cover"
-                              />
+                              {banner.resourceType === 'video' || isVideoUrl(banner.imageUrl) ? (
+                                <video
+                                  src={banner.imageUrl}
+                                  className="w-full h-full object-cover"
+                                  muted
+                                  loop
+                                  autoPlay
+                                  playsInline
+                                />
+                              ) : (
+                                <img
+                                  src={banner.imageUrl}
+                                  alt={banner.title || "Banner"}
+                                  className="w-full h-full object-cover"
+                                />
+                              )}
                             </div>
                             <span className="text-sm font-medium text-slate-900">{banner.title || "Untitled Banner"}</span>
                           </div>
