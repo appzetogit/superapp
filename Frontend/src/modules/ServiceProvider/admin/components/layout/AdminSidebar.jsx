@@ -18,6 +18,7 @@ import {
   FiTrash2,
   FiStar,
   FiShield,
+  FiSearch,
 } from "react-icons/fi";
 import { UtensilsCrossed, Truck, Wrench, ShoppingBasket, Pill, ChevronDown } from "lucide-react";
 import adminMenu from "../../config/adminMenu.json";
@@ -47,6 +48,26 @@ const iconMap = {
   Plans: FiPackage,
   "Worker Plans": FiBriefcase,
   Legal: FiShield,
+};
+
+const categoryMap = {
+  Dashboard: "Overview",
+  Users: "Operations",
+  Vendors: "Operations",
+  Workers: "Operations",
+  Bookings: "Operations",
+  "User Catalog": "Operations",
+  "Vendor Services": "Operations",
+  "Vendor Parts": "Operations",
+  Payments: "Finance & Accounts",
+  Settlements: "Finance & Accounts",
+  Reports: "Insights & Activity",
+  Notifications: "Insights & Activity",
+  Reviews: "Insights & Activity",
+  Settings: "System & Legal",
+  "Worker Plans": "System & Legal",
+  Plans: "System & Legal",
+  Legal: "System & Legal",
 };
 
 // Helper function to convert child name to route path
@@ -125,6 +146,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [expandedItems, setExpandedItems] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [adminUser, setAdminUser] = useState({ name: 'Admin', email: '', role: 'admin' });
   const [counts, setCounts] = useState({
@@ -222,6 +244,17 @@ const AdminSidebar = ({ isOpen, onClose }) => {
       return item;
     });
   }, [adminUser.role, isWorkerMode]);
+
+  // Filter menu items by search query
+  const displayedMenu = useMemo(() => {
+    if (!searchQuery.trim()) return filteredMenu;
+    const q = searchQuery.toLowerCase().trim();
+    return filteredMenu.filter((item) => {
+      const matchTitle = item.title?.toLowerCase().includes(q);
+      const matchChildren = item.children?.some((c) => c.toLowerCase().includes(q));
+      return matchTitle || matchChildren;
+    });
+  }, [filteredMenu, searchQuery]);
 
   // Fetch pending counts for badges
   useEffect(() => {
@@ -499,55 +532,116 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         </div>
 
         {/* Admin Panel Label */}
-        <div className="mb-3">
-          <h2 className="text-sm font-semibold text-neutral-300 uppercase tracking-wider text-left">
+        <div className="mb-2">
+          <h2 className="text-xs font-bold text-neutral-400 uppercase tracking-wider text-left">
             Admin Panel
           </h2>
         </div>
 
         {/* Platform module switcher */}
-        <div className="flex p-1 bg-neutral-800/40 backdrop-blur-sm rounded-xl mb-1 border border-white/5 shadow-inner">
-          <button
-            type="button"
-            onClick={() => navigate("/admin/food")}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-neutral-400 hover:text-neutral-200 hover:bg-white/5">
-            <UtensilsCrossed className="w-3.5 h-3.5 text-neutral-500" />
-            Food
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/taxi/admin/dashboard")}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-neutral-400 hover:text-neutral-200 hover:bg-white/5">
-            <Truck className="w-3.5 h-3.5 text-neutral-500" />
-            Taxi
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/admin/sp/dashboard")}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300 bg-white text-black shadow-[0_4px_12px_rgba(255,255,255,0.15)] scale-[1.02]">
-            <Wrench className="w-3.5 h-3.5 text-black" />
-            Services
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/admin/quick-commerce")}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-neutral-400 hover:text-neutral-200 hover:bg-white/5">
-            <ShoppingBasket className="w-3.5 h-3.5 text-neutral-500" />
-            Quick
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/admin/medical")}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-neutral-400 hover:text-neutral-200 hover:bg-white/5">
-            <Pill className="w-3.5 h-3.5 text-neutral-500" />
-            Medical
-          </button>
+        <div className="mb-3 bg-neutral-900/90 p-1.5 rounded-xl border border-white/10 shadow-sm space-y-1.5">
+          {/* Row 1: Delivery, Rides, Services */}
+          <div className="grid grid-cols-3 gap-1.5">
+            <button
+              type="button"
+              onClick={() => navigate("/admin/food")}
+              title="Food Delivery Admin"
+              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+            >
+              <UtensilsCrossed className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <span className="truncate">Food</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/taxi/admin/dashboard")}
+              title="Taxi & Rides Admin"
+              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+            >
+              <Truck className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <span className="truncate">Taxi</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/admin/sp/dashboard")}
+              title="Home & Worker Services Admin"
+              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-bold rounded-lg transition-all duration-200 truncate bg-white text-neutral-950 shadow-sm"
+            >
+              <Wrench className="w-3.5 h-3.5 shrink-0 text-neutral-950" />
+              <span className="truncate">Services</span>
+            </button>
+          </div>
+
+          {/* Row 2: Commerce & Pharmacy */}
+          <div className="grid grid-cols-2 gap-1.5">
+            <button
+              type="button"
+              onClick={() => navigate("/admin/quick-commerce")}
+              title="Quick Commerce (Grocery) Admin"
+              className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+            >
+              <ShoppingBasket className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <span className="truncate">Quick Store</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/admin/medical")}
+              title="Pharmacy & Medical Admin"
+              className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+            >
+              <Pill className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <span className="truncate">Medical</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative">
+          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-3.5 h-3.5 z-10" />
+          <input
+            type="text"
+            placeholder="Search Menu..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={`w-full pl-8.5 ${searchQuery ? 'pr-8' : 'pr-3'} py-1.5 bg-neutral-900 border border-neutral-800 rounded-lg text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-white/30 focus:border-neutral-700 transition-all`}
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-white transition-colors"
+            >
+              <FiX className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
 
       {/* Navigation Menu */}
       <nav className="flex-1 overflow-y-auto p-3 admin-sidebar-scroll lg:pb-3 space-y-1">
-        {filteredMenu.map((item) => renderMenuItem(item))}
+        {displayedMenu.length === 0 && searchQuery.trim() ? (
+          <div className="px-3 py-8 text-center">
+            <p className="text-neutral-400 text-xs font-medium">No menu items found</p>
+            <p className="text-neutral-500 text-xs mt-1">Try a different search term</p>
+          </div>
+        ) : (
+          displayedMenu.map((item, index) => {
+            const currentCat = categoryMap[item.title];
+            const prevCat = index > 0 ? categoryMap[displayedMenu[index - 1].title] : null;
+            const showCatHeader = !searchQuery.trim() && currentCat && currentCat !== prevCat;
+
+            return (
+              <div key={item.route || item.title}>
+                {showCatHeader && (
+                  <div className={`px-2 ${index > 0 ? "pt-3.5 pb-1.5 border-t border-neutral-800/60 mt-1.5" : "pt-1 pb-1.5"}`}>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                      {currentCat}
+                    </span>
+                  </div>
+                )}
+                {renderMenuItem(item)}
+              </div>
+            );
+          })
+        )}
       </nav>
     </div>
   );

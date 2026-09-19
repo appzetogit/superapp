@@ -1414,16 +1414,14 @@ const AdminLayout = () => {
         // The active state inverts to a dark pill. On a light ground a lightly tinted
         // fill is easy to miss, and this rail has a lot of destinations to scan.
         style={{
-          '--sb-surface': '#FAF8F5',
-          '--sb-surface-raised': '#FFFFFF',
-          '--sb-border': '#E8E2D9',
-          '--sb-hover': '#F1ECE4',
-          '--sb-ink': '#1A1A1A',
-          // Warm grey-brown, ~9:1 on --sb-surface.
-          '--sb-ink-soft': '#5C5247',
-          // Section labels, inactive icons and bullets. ~5.1:1 -- past AA.
-          '--sb-ink-faint': '#6E655B',
-          '--sb-active-bg': '#1A1A1A',
+          '--sb-surface': '#FFFFFF',
+          '--sb-surface-raised': '#F8FAFC',
+          '--sb-border': '#E2E8F0',
+          '--sb-hover': '#F1F5F9',
+          '--sb-ink': '#0F172A',
+          '--sb-ink-soft': '#334155',
+          '--sb-ink-faint': '#64748B',
+          '--sb-active-bg': '#0F172A',
           '--sb-active-ink': '#FFFFFF',
         }}
         className={cn(
@@ -1446,10 +1444,6 @@ const AdminLayout = () => {
                       {taxiTitle}
                     </h3>
                     <div className="mt-1 flex items-center gap-1.5">
-                      {/* emerald-600 rather than 500: the lighter shade was chosen to
-                          glow on a near-black rail and sits at roughly 2.3:1 on this
-                          one. The outward glow goes with it -- on a light ground it
-                          reads as a smudge rather than a light source. */}
                       <div className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
                       <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--sb-ink-faint)]">
                         System Admin
@@ -1483,8 +1477,8 @@ const AdminLayout = () => {
 
             {/* Admin Panel Label */}
             {!isCollapsed && (
-              <div className="mb-3">
-                <h2 className="text-sm font-semibold text-[var(--sb-ink-soft)] uppercase tracking-wider text-left">
+              <div className="mb-2">
+                <h2 className="text-xs font-bold text-[var(--sb-ink-faint)] uppercase tracking-wider text-left">
                   Admin Panel
                 </h2>
               </div>
@@ -1492,73 +1486,74 @@ const AdminLayout = () => {
 
             {/* Module Switcher Tabs */}
             {!isCollapsed && (
-              <div className="flex p-1 bg-[var(--sb-surface-raised)] backdrop-blur-sm rounded-xl mb-1 border border-[var(--sb-border)] shadow-inner">
-                <button
-                  type="button"
-                  onClick={() => navigate("/admin/food")}
-                  className={cn(
-                    "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                    "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
-                  )}
-                >
-                  <UtensilsCrossed className="w-3.5 h-3.5 text-[var(--sb-ink-faint)]" />
-                  Food
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate("/taxi/admin/dashboard")}
-                  className={cn(
-                    "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                    // Was bg-white/text-black, which marked the current module only
-                    // because the strip behind it was dark. On a light strip that is
-                    // the least distinguishable fill available, so the active tab
-                    // inverts to the dark pill the rest of the rail uses for "current".
-                    "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-[0_2px_8px_rgba(26,26,26,0.18)] scale-[1.02]"
-                  )}
-                >
-                  <Truck className="w-3.5 h-3.5 text-[var(--sb-active-ink)]" />
-                  Taxi
-                </button>
-                {/*
-                  Services is intentionally hidden from the module switcher (not
-                  removed). The /admin/sp routes and pages still exist and stay
-                  reachable by URL - uncomment to restore.
-                */}
-                {/*<button
-                  type="button"
-                  onClick={() => navigate("/admin/sp/dashboard")}
-                  className={cn(
-                    "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                    "text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
-                  )}
-                >
-                  <Wrench className="w-3.5 h-3.5 text-neutral-500" />
-                  Services
-                </button>*/}
-                <button
-                  type="button"
-                  onClick={() => navigate("/admin/quick-commerce")}
-                  className={cn(
-                    "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                    "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
-                  )}
-                >
-                  <ShoppingBasket className="w-3.5 h-3.5 text-[var(--sb-ink-faint)]" />
-                  Quick
-                </button>
-                {/* Medical sits beside Quick in every panel's switcher; it was only
-                    added to the food one, so it vanished on the way here. */}
-                <button
-                  type="button"
-                  onClick={() => navigate("/admin/medical")}
-                  className={cn(
-                    "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                    "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
-                  )}
-                >
-                  <Pill className="w-3.5 h-3.5 text-[var(--sb-ink-faint)]" />
-                  Medical
-                </button>
+              <div className="mb-3.5 bg-[var(--sb-surface-raised)] p-1.5 rounded-xl border border-[var(--sb-border)] shadow-sm space-y-1.5">
+                {/* Row 1: Primary Delivery & Services */}
+                <div className="grid grid-cols-3 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/food")}
+                    title="Food Delivery Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <UtensilsCrossed className="w-3.5 h-3.5 shrink-0 text-[var(--sb-ink-faint)]" />
+                    <span className="truncate">Food</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/taxi/admin/dashboard")}
+                    title="Taxi & Rides Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-sm font-bold"
+                    )}
+                  >
+                    <Truck className="w-3.5 h-3.5 shrink-0 text-[var(--sb-active-ink)]" />
+                    <span className="truncate">Taxi</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/sp/dashboard")}
+                    title="Home & Worker Services Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <Wrench className="w-3.5 h-3.5 shrink-0 text-[var(--sb-ink-faint)]" />
+                    <span className="truncate">Services</span>
+                  </button>
+                </div>
+
+                {/* Row 2: Commerce & Pharmacy */}
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/quick-commerce")}
+                    title="Quick Commerce (Grocery) Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <ShoppingBasket className="w-3.5 h-3.5 shrink-0 text-[var(--sb-ink-faint)]" />
+                    <span className="truncate">Quick Store</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/medical")}
+                    title="Pharmacy & Medical Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <Pill className="w-3.5 h-3.5 shrink-0 text-[var(--sb-ink-faint)]" />
+                    <span className="truncate">Medical</span>
+                  </button>
+                </div>
               </div>
             )}
           </div>

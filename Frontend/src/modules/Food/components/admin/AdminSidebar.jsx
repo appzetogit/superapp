@@ -826,19 +826,16 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
          * fill is easy to miss, and this panel has ~90 destinations to scan.
          */
         .admin-sidebar-root {
-          --sb-surface: #FAF8F5;
-          --sb-surface-raised: #FFFFFF;
-          --sb-border: #E8E2D9;
-          --sb-hover: #F1ECE4;
+          --sb-surface: #FFFFFF;
+          --sb-surface-raised: #F8FAFC;
+          --sb-border: #E2E8F0;
+          --sb-hover: #F1F5F9;
 
-          --sb-ink: #1A1A1A;
-          /* Warm grey-brown. ~9:1 on --sb-surface, comfortably past AA. */
-          --sb-ink-soft: #5C5247;
-          /* Section labels and inactive icons. Darkened from the obvious #8B8177,
-             which fell under 4.5:1 on this ground; this sits at ~5.1:1. */
-          --sb-ink-faint: #6E655B;
+          --sb-ink: #0F172A;
+          --sb-ink-soft: #334155;
+          --sb-ink-faint: #64748B;
 
-          --sb-active-bg: #1A1A1A;
+          --sb-active-bg: #0F172A;
           --sb-active-ink: #FFFFFF;
         }
 
@@ -887,8 +884,7 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         }
         
-        /* Scrollbar. These were white-on-dark rgba literals, which on the light rail
-           would have been an invisible thumb on an invisible track. */
+        /* Scrollbar */
         .admin-sidebar-scroll::-webkit-scrollbar {
           width: 2px;
         }
@@ -896,19 +892,19 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
           background: transparent;
         }
         .admin-sidebar-scroll::-webkit-scrollbar-thumb {
-          background: rgba(92, 82, 71, 0.25);
+          background: rgba(100, 116, 139, 0.25);
           border-radius: 10px;
           transition: background 0.2s ease;
         }
         .admin-sidebar-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(92, 82, 71, 0.45);
+          background: rgba(100, 116, 139, 0.45);
         }
         .admin-sidebar-scroll:hover::-webkit-scrollbar {
           width: 6px;
         }
         .admin-sidebar-scroll {
           scrollbar-width: thin;
-          scrollbar-color: rgba(92, 82, 71, 0.3) transparent;
+          scrollbar-color: rgba(100, 116, 139, 0.3) transparent;
         }
 
         /*
@@ -1039,111 +1035,121 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
 
           {/* Module Switcher Tabs */}
           {!isCollapsed && (
-            <div className="flex p-1 bg-[var(--sb-surface-raised)] backdrop-blur-sm rounded-xl mb-4 border border-[var(--sb-border)] shadow-inner animate-[slideIn_0.4s_ease-out_0.15s_both]">
-              {serviceAccess.food && (
-              <button
-                type="button"
-                onClick={() => navigate("/admin/food")}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                  location.pathname.includes("/admin/food") || location.pathname === "/admin" || location.pathname === "/admin/"
-                    ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-[0_2px_8px_rgba(26,26,26,0.18)] scale-[1.02]"
-                    : "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
+            <div className="mb-3.5 bg-[var(--sb-surface-raised)] p-1.5 rounded-xl border border-[var(--sb-border)] shadow-sm animate-[slideIn_0.4s_ease-out_0.15s_both] space-y-1.5">
+              {/* Row 1: Primary Delivery & Fleet */}
+              <div className="grid grid-cols-3 gap-1.5">
+                {serviceAccess.food && (
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/food")}
+                    title="Food Delivery Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      location.pathname.includes("/admin/food") || location.pathname === "/admin" || location.pathname === "/admin/"
+                        ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-sm font-bold"
+                        : "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <UtensilsCrossed
+                      className={cn(
+                        "w-3.5 h-3.5 shrink-0",
+                        location.pathname.includes("/admin/food") || location.pathname === "/admin" || location.pathname === "/admin/"
+                          ? "text-[var(--sb-active-ink)]"
+                          : "text-[var(--sb-ink-faint)]"
+                      )}
+                    />
+                    <span className="truncate">Food</span>
+                  </button>
                 )}
-              >
-                <UtensilsCrossed
-                  className={cn(
-                    "w-3.5 h-3.5",
-                    location.pathname.includes("/admin/food") || location.pathname === "/admin" || location.pathname === "/admin/"
-                      ? "text-[var(--sb-active-ink)]"
-                      : "text-[var(--sb-ink-faint)]"
-                  )}
-                />
-                Food
-              </button>
-              )}
-              {serviceAccess.taxi && (
-              <button
-                type="button"
-                onClick={() => navigate("/taxi/admin/dashboard")}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                  location.pathname.startsWith("/taxi")
-                    ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-[0_2px_8px_rgba(26,26,26,0.18)] scale-[1.02]"
-                    : "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
+                {serviceAccess.taxi && (
+                  <button
+                    type="button"
+                    onClick={() => navigate("/taxi/admin/dashboard")}
+                    title="Taxi & Rides Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      location.pathname.startsWith("/taxi")
+                        ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-sm font-bold"
+                        : "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <Truck
+                      className={cn(
+                        "w-3.5 h-3.5 shrink-0",
+                        location.pathname.startsWith("/taxi") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
+                      )}
+                    />
+                    <span className="truncate">Taxi</span>
+                  </button>
                 )}
-              >
-                <Truck
-                  className={cn(
-                    "w-3.5 h-3.5",
-                    location.pathname.startsWith("/taxi") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
-                  )}
-                />
-                Taxi
-              </button>
-              )}
-              {serviceAccess.serviceProvider && (
-              <button
-                type="button"
-                onClick={() => navigate("/admin/sp/dashboard")}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                  location.pathname.startsWith("/admin/sp")
-                    ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-[0_2px_8px_rgba(26,26,26,0.18)] scale-[1.02]"
-                    : "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
+                {serviceAccess.serviceProvider && (
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/sp/dashboard")}
+                    title="Home & Worker Services Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      location.pathname.startsWith("/admin/sp")
+                        ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-sm font-bold"
+                        : "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <Wrench
+                      className={cn(
+                        "w-3.5 h-3.5 shrink-0",
+                        location.pathname.startsWith("/admin/sp") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
+                      )}
+                    />
+                    <span className="truncate">Services</span>
+                  </button>
                 )}
-              >
-                <Wrench
-                  className={cn(
-                    "w-3.5 h-3.5",
-                    location.pathname.startsWith("/admin/sp") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
-                  )}
-                />
-                Services
-              </button>
-              )}
-              {serviceAccess.quickCommerce && (
-              <button
-                type="button"
-                onClick={() => navigate("/admin/quick-commerce")}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                  location.pathname.startsWith("/admin/quick-commerce")
-                    ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-[0_2px_8px_rgba(26,26,26,0.18)] scale-[1.02]"
-                    : "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
+              </div>
+
+              {/* Row 2: Commerce & Pharmacy */}
+              <div className="grid grid-cols-2 gap-1.5">
+                {serviceAccess.quickCommerce && (
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/quick-commerce")}
+                    title="Quick Commerce (Grocery) Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      location.pathname.startsWith("/admin/quick-commerce")
+                        ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-sm font-bold"
+                        : "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <ShoppingBasket
+                      className={cn(
+                        "w-3.5 h-3.5 shrink-0",
+                        location.pathname.startsWith("/admin/quick-commerce") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
+                      )}
+                    />
+                    <span className="truncate">Quick Store</span>
+                  </button>
                 )}
-              >
-                <ShoppingBasket
-                  className={cn(
-                    "w-3.5 h-3.5",
-                    location.pathname.startsWith("/admin/quick-commerce") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
-                  )}
-                />
-                Quick
-              </button>
-              )}
-              {/* Medical: the quick-commerce panel narrowed to pharmacies. Gated
-                  on quick-commerce access because that is whose data it shows. */}
-              {serviceAccess.quickCommerce && (
-              <button
-                type="button"
-                onClick={() => navigate("/admin/medical")}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all duration-300",
-                  location.pathname.startsWith("/admin/medical")
-                    ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-[0_2px_8px_rgba(26,26,26,0.18)] scale-[1.02]"
-                    : "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink-soft)] hover:bg-[var(--sb-hover)]"
+                {serviceAccess.quickCommerce && (
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/medical")}
+                    title="Pharmacy & Medical Admin"
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate",
+                      location.pathname.startsWith("/admin/medical")
+                        ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] shadow-sm font-bold"
+                        : "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    )}
+                  >
+                    <Pill
+                      className={cn(
+                        "w-3.5 h-3.5 shrink-0",
+                        location.pathname.startsWith("/admin/medical") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
+                      )}
+                    />
+                    <span className="truncate">Medical</span>
+                  </button>
                 )}
-              >
-                <Pill
-                  className={cn(
-                    "w-3.5 h-3.5",
-                    location.pathname.startsWith("/admin/medical") ? "text-[var(--sb-active-ink)]" : "text-[var(--sb-ink-faint)]"
-                  )}
-                />
-                Medical
-              </button>
-              )}
+              </div>
             </div>
           )}
 
@@ -1198,8 +1204,8 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     {!isCollapsed && (
-                      <div className="px-3 py-2 mb-2">
-                        <span className="text-[var(--sb-ink-faint)] font-bold text-sm uppercase tracking-wider text-left">
+                      <div className="px-3 pt-2 pb-1 mb-1">
+                        <span className="text-[var(--sb-ink-faint)] font-bold text-xs uppercase tracking-wider text-left">
                           {item.label}
                         </span>
                       </div>
