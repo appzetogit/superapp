@@ -398,11 +398,13 @@ const AdminSidebar = ({ isOpen, onClose }) => {
               handleMenuItemClick(item.route);
             }
           }}>
-          <Icon
-            className={`text-lg flex-shrink-0 ${active ? "text-white" : "text-neutral-400"
-              }`}
-          />
-          <span className="font-semibold flex-1 text-sm">{item.title}</span>
+          <span className="w-5 h-5 flex items-center justify-center shrink-0">
+            <Icon
+              className={`text-base ${active ? "text-white" : "text-neutral-400"
+                }`}
+            />
+          </span>
+          <span className="font-semibold flex-1 text-sm truncate">{item.title}</span>
 
           {/* Badge Display */}
           {item.title === "Bookings" && counts.bookings > 0 && (
@@ -602,7 +604,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             placeholder="Search Menu..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`w-full pl-8.5 ${searchQuery ? 'pr-8' : 'pr-3'} py-1.5 bg-neutral-900 border border-neutral-800 rounded-lg text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-white/30 focus:border-neutral-700 transition-all`}
+            className={`w-full pl-9 ${searchQuery ? 'pr-8' : 'pr-3'} py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-white/30 focus:border-neutral-700 transition-all`}
           />
           {searchQuery && (
             <button
@@ -631,7 +633,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             return (
               <div key={item.route || item.title}>
                 {showCatHeader && (
-                  <div className={`px-2 ${index > 0 ? "pt-3.5 pb-1.5 border-t border-neutral-800/60 mt-1.5" : "pt-1 pb-1.5"}`}>
+                  <div className={`px-3 ${index > 0 ? "pt-3.5 pb-1.5 border-t border-neutral-800/60 mt-1.5" : "pt-1 pb-1.5"}`}>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                       {currentCat}
                     </span>

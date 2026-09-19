@@ -417,7 +417,7 @@ const SidebarGroup = ({
       </button>
 
       {!isCollapsed && isExpanded && (
-        <div className="pl-6 pr-2 space-y-1">
+        <div className="ml-6 pl-3 border-l border-[var(--sb-border)] space-y-1 my-1">
           {subItems.map((item) =>
             item.subItems ? (
               <NestedGroup
@@ -439,18 +439,15 @@ const SidebarGroup = ({
                 end
                 className={({ isActive: childActive }) =>
                   cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-medium transition-all duration-300",
+                    "flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-all duration-200",
                     childActive
-                      ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] font-semibold"
-                      : "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                      ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] font-semibold shadow-sm"
+                      : "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
                   )
                 }
               >
-                {/* bg-current, so the bullet tracks the link's own colour: it needs to
-                    be light on the dark active pill and dark at rest, and it renders
-                    outside the className callback that knows which. */}
-                <div className={cn("h-1 w-1 shrink-0 rounded-full", "bg-current")} />
-                <span className="min-w-0 flex-1">{item.label}</span>
+                <div className={cn("h-1.5 w-1.5 shrink-0 rounded-full", "bg-current")} />
+                <span className="min-w-0 flex-1 truncate">{item.label}</span>
                 <SidebarBadge count={getSidebarItemCount(item, unreadCountsByPath)} />
               </NavLink>
             )
@@ -511,7 +508,7 @@ const NestedGroup = ({
       </button>
 
       {isExpanded && (
-        <div className="pl-4 space-y-1">
+        <div className="ml-5 pl-2.5 border-l border-[var(--sb-border)] space-y-1 my-1">
           {subItems.map((item) => (
             <NavLink
               key={item.path}
@@ -519,15 +516,15 @@ const NestedGroup = ({
               end
               className={({ isActive: childActive }) =>
                 cn(
-                  "flex items-center gap-3 px-3 py-1.5 rounded-xl text-[12px] font-medium transition-all duration-300",
+                  "flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200",
                   childActive
-                    ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] font-semibold"
-                    : "text-[var(--sb-ink-faint)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
+                    ? "bg-[var(--sb-active-bg)] text-[var(--sb-active-ink)] font-semibold shadow-sm"
+                    : "text-[var(--sb-ink-soft)] hover:text-[var(--sb-ink)] hover:bg-[var(--sb-hover)]"
                 )
               }
             >
-              <div className="h-0.5 w-0.5 shrink-0 rounded-full bg-current" />
-              <span className="min-w-0 flex-1">{item.label}</span>
+              <div className="h-1 w-1 shrink-0 rounded-full bg-current" />
+              <span className="min-w-0 flex-1 truncate">{item.label}</span>
               <SidebarBadge count={getSidebarItemCount(item, unreadCountsByPath)} />
             </NavLink>
           ))}

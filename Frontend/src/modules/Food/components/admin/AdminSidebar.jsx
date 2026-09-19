@@ -757,7 +757,7 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
             </div>
           </button>
           {isExpanded && item.subItems && (
-            <div className="ml-5 mt-1 space-y-1 border-[var(--sb-border)] pl-3 submenu-animate overflow-hidden">
+            <div className="ml-5 mt-1 space-y-1 border-l border-[var(--sb-border)] pl-3 submenu-animate overflow-hidden">
               {item.subItems.map((subItem, subIndex) => {
                 const allSubPaths = item.subItems.map(si => si.path)
                 return (
@@ -1026,8 +1026,8 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
 
           {/* Admin Panel Label */}
           {!isCollapsed && (
-            <div className="mb-3 animate-[slideIn_0.4s_ease-out_0.1s_both]">
-              <h2 className="text-sm font-semibold text-[var(--sb-ink-soft)] uppercase tracking-wider text-left">
+            <div className="mb-2 px-0.5 animate-[slideIn_0.4s_ease-out_0.1s_both]">
+              <h2 className="text-xs font-bold text-[var(--sb-ink-faint)] uppercase tracking-wider text-left">
                 Admin Panel
               </h2>
             </div>
