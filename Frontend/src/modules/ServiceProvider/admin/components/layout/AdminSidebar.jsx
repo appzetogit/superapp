@@ -159,7 +159,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
   const [isWorkerMode, setIsWorkerMode] = useState(false);
   const [businessCompanyName, setBusinessCompanyName] = useState(() => {
     const cached = getCachedSettings();
-    return normalizeCompanyName(cached?.companyName) || 'Quick Drop';
+    return normalizeCompanyName(cached?.companyName) || 'AppzetoSuperApp';
   });
   const [logoUrl, setLogoUrl] = useState(() => getCachedSettings()?.logo?.url || null);
 

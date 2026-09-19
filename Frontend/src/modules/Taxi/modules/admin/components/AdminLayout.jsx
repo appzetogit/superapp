@@ -641,10 +641,10 @@ const AdminLayout = () => {
   const notificationsMenuRef = useRef(null);
   const [adminProfile, setAdminProfile] = useState(() => readAdminProfile());
 
-  const appName = settings.general?.app_name || 'Quick Drop';
+  const appName = settings.general?.app_name || 'AppzetoSuperApp';
   const [businessCompanyName, setBusinessCompanyName] = useState(() => {
     const cached = getCachedSettings();
-    return normalizeCompanyName(cached?.companyName) || settings.general?.app_name || 'Quick Drop';
+    return normalizeCompanyName(cached?.companyName) || settings.general?.app_name || 'AppzetoSuperApp';
   });
 
   useEffect(() => {

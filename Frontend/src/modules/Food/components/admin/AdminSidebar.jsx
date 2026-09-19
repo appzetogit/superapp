@@ -164,7 +164,7 @@ export const currentAdminBase = (pathname = "") =>
   REUSED_ADMIN_BASES.find((base) => pathname.startsWith(base)) || FOOD_ADMIN_BASE
 
 export const getVerticalTitle = (base = "", customName = "") => {
-  const name = (customName || "Quick Drop").trim()
+  const name = (customName || "AppzetoSuperApp").trim()
   if (base === "/admin/medical") {
     return name.toLowerCase().endsWith("medical") ? name : `${name} Medical`
   }
@@ -183,9 +183,9 @@ export const getVerticalTitle = (base = "", customName = "") => {
  * exactly how quick-commerce banner uploads ended up in food.
  */
 const VERTICAL_BRANDING = {
-  "/admin/food": { title: "Quick Drop Food", labels: {} },
+  "/admin/food": { title: "AppzetoSuperApp Food", labels: {} },
   "/admin/quick-commerce": {
-    title: "Quick Drop Quick",
+    title: "AppzetoSuperApp Quick",
     labels: {
       "FOOD MANAGEMENT": "PRODUCT MANAGEMENT",
       "RESTAURANT MANAGEMENT": "SELLER MANAGEMENT",
@@ -211,7 +211,7 @@ const VERTICAL_BRANDING = {
    * pharmacies and the products are medicines.
    */
   "/admin/medical": {
-    title: "Quick Drop Medical",
+    title: "AppzetoSuperApp Medical",
     labels: {
       "FOOD MANAGEMENT": "MEDICINE MANAGEMENT",
       "RESTAURANT MANAGEMENT": "PHARMACY MANAGEMENT",

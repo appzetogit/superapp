@@ -518,13 +518,13 @@ const ReferralTranslation = () => {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
         <PreviewCard
           title="User App Preview"
-          code="Quick DropUSER"
+          code="AppzetoSuperAppUSER"
           bannerText={selectedRecord.user_referral?.banner_text}
           blocks={userPreviewBlocks}
         />
         <PreviewCard
           title="Driver App Preview"
-          code="Quick DropDRV"
+          code="AppzetoSuperAppDRV"
           bannerText={selectedRecord.driver_referral?.banner_text}
           blocks={driverPreviewBlocks}
         />
