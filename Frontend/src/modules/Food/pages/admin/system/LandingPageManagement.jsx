@@ -46,7 +46,17 @@ export default function LandingPageManagement() {
     // app, so it gets its own artwork rather than inheriting Quick's.
     { value: 'medical', label: 'Medical' },
     { value: 'porter', label: 'Porter' },
+    { value: 'services', label: 'Services' },
   ]
+
+  // Sections whose header may be a video. The server records the resource type
+  // at upload (image vs video), so only the picker and previews need to know.
+  const VIDEO_SECTIONS = ['services']
+  const bannerAllowsVideo = VIDEO_SECTIONS.includes(bannerModule)
+  // middleware/upload.js caps each file at 25 MB; bigger videos fail server-side.
+  const MAX_BANNER_VIDEO_BYTES = 25 * 1024 * 1024
+  const isVideoBanner = (b) =>
+    b?.resourceType === 'video' || /\.(mp4|webm|mov|m4v)(\?|$)/i.test(b?.imageUrl || '')
 
   // Linking a banner to restaurants only means something inside Food.
   const isFoodBannerSection = bannerModule === 'food'
@@ -233,6 +243,15 @@ export default function LandingPageManagement() {
     if (files.length === 0) return
     if (files.length > 5) {
       setError('You can upload a maximum of 5 images at once')
+      return
+    }
+    const videos = files.filter((f) => f.type.startsWith('video/'))
+    if (videos.length && !bannerAllowsVideo) {
+      setError('Videos can only be uploaded in the Services section')
+      return
+    }
+    if (videos.some((f) => f.size > MAX_BANNER_VIDEO_BYTES)) {
+      setError('Each video must be 25 MB or smaller')
       return
     }
     uploadBanners(files)
@@ -1340,7 +1359,7 @@ export default function LandingPageManagement() {
                 })}
               </div>
               <p className="mt-3 text-xs text-slate-500">
-                Upload a GIF here and it becomes the animated header at the top of
+                Upload a {bannerAllowsVideo ? 'video or GIF' : 'GIF'} here and it becomes the animated header at the top of
                 the {bannerModuleLabel} screen in the app — and nowhere else.
               </p>
             </div>
@@ -1365,7 +1384,7 @@ export default function LandingPageManagement() {
                 <input
                   ref={bannersFileInputRef}
                   type="file"
-                  accept="image/*"
+                  accept={bannerAllowsVideo ? 'image/*,video/mp4,video/webm,video/quicktime' : 'image/*'}
                   multiple
                   onChange={handleBannerFileSelect}
                   className="hidden"
@@ -1401,7 +1420,11 @@ export default function LandingPageManagement() {
                       </button>
                       <span className="text-slate-600"> or drag and drop</span>
                     </div>
-                    <p className="text-xs text-slate-500">GIF, PNG, JPG or WEBP (Max 5 files at once)</p>
+                    <p className="text-xs text-slate-500">
+                      {bannerAllowsVideo
+                        ? 'MP4, WEBM or MOV (up to 25 MB), or GIF, PNG, JPG, WEBP (Max 5 files at once)'
+                        : 'GIF, PNG, JPG or WEBP (Max 5 files at once)'}
+                    </p>
                     <p className="text-xs text-amber-600">
                       A GIF animates. Customers re-download it every time the screen
                       opens, so keep it as small as it can look good.
@@ -1433,7 +1456,11 @@ export default function LandingPageManagement() {
                   {bannersForModule.map((banner, index) => (
                     <div key={banner._id} className="border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                       <div className="relative aspect-video bg-slate-100">
-                        <img src={banner.imageUrl} alt={`Hero Banner ${index + 1}`} className="w-full h-full object-cover" />
+                        {isVideoBanner(banner) ? (
+                          <video src={banner.imageUrl} className="w-full h-full object-cover" autoPlay muted loop playsInline />
+                        ) : (
+                          <img src={banner.imageUrl} alt={`Hero Banner ${index + 1}`} className="w-full h-full object-cover" />
+                        )}
                         <div className="absolute top-2 right-2">
                           <span className={`px-2 py-1 rounded text-xs font-medium ${banner.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
                             {banner.isActive ? 'Active' : 'Inactive'}
