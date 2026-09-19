@@ -1,6 +1,23 @@
 import { FoodBusinessSettings } from '../models/businessSettings.model.js';
 import { sendResponse } from '../../../../utils/response.js';
 import { uploadImageBufferDetailed } from '../../../../services/cloudinary.service.js';
+import { FoodBusinessSettings as PlatformBusinessSettings } from '../../../../../food/admin/models/businessSettings.model.js';
+
+/**
+ * Quick commerce keeps its own settings document, but the brand is the platform's.
+ * Its schema default was 'Switcheats' (a previous vendor), so a fresh install showed
+ * that name -- and because the admin panel caches business settings under one key
+ * for every vertical, opening Quick Store overwrote the name set in Food's Business
+ * Setup. Seed from, and heal towards, the name the operator actually chose.
+ */
+const LEGACY_BRAND = 'Switcheats';
+const platformBrandDefaults = async () => {
+    const platform = await PlatformBusinessSettings.findOne().select('companyName email').lean().catch(() => null);
+    return {
+        companyName: platform?.companyName || 'Quick Drop',
+        email: platform?.email || 'admin@example.com',
+    };
+};
 
 /** The web-config keys the admin panel may write. Anything else is ignored. */
 const FIREBASE_WEB_FIELDS = [
@@ -99,10 +116,14 @@ export async function getBusinessSettings(req, res, next) {
         let settings = await FoodBusinessSettings.findOne();
         if (!settings) {
             // Create default settings if none exist
-            settings = await FoodBusinessSettings.create({
-                companyName: 'Switcheats',
-                email: 'admin@switcheats.com'
-            });
+            settings = await FoodBusinessSettings.create(await platformBrandDefaults());
+        }
+
+        if (settings.companyName === LEGACY_BRAND) {
+            const brand = await platformBrandDefaults();
+            settings.companyName = brand.companyName;
+            if (/switcheats/i.test(settings.email || '')) settings.email = brand.email;
+            await settings.save();
         }
 
         // Backend-side safety: always expose normalized powerScanning in public payload.
@@ -151,10 +172,7 @@ export async function getPowerScanningSettings(req, res, next) {
     try {
         let settings = await FoodBusinessSettings.findOne().lean();
         if (!settings) {
-            settings = await FoodBusinessSettings.create({
-                companyName: 'Switcheats',
-                email: 'admin@switcheats.com'
-            });
+            settings = await FoodBusinessSettings.create(await platformBrandDefaults());
         }
         const payload = buildPowerScanningPayload(settings?.powerScanning || {}, settings?.powerScanning || POWER_SCANNING_DEFAULT);
         return sendResponse(res, 200, 'Power scanning settings fetched successfully', payload);
@@ -168,10 +186,7 @@ export async function updatePowerScanningSettings(req, res, next) {
         const payload = req.body || {};
         let settings = await FoodBusinessSettings.findOne();
         if (!settings) {
-            settings = new FoodBusinessSettings({
-                companyName: 'Switcheats',
-                email: 'admin@switcheats.com'
-            });
+            settings = new FoodBusinessSettings(await platformBrandDefaults());
         }
 
         settings.powerScanning = buildPowerScanningPayload(payload, settings.powerScanning || POWER_SCANNING_DEFAULT);
@@ -187,10 +202,7 @@ export async function getOrderAcceptanceSettings(req, res, next) {
     try {
         let settings = await FoodBusinessSettings.findOne();
         if (!settings) {
-            settings = await FoodBusinessSettings.create({
-                companyName: 'Switcheats',
-                email: 'admin@switcheats.com'
-            });
+            settings = await FoodBusinessSettings.create(await platformBrandDefaults());
         }
 
         const minutes = normalizeOrderAcceptanceMinutes(settings.orderAcceptanceTimeMinutes);
