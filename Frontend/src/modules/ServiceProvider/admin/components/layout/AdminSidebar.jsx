@@ -387,8 +387,8 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           className={`
             flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer text-sm
             ${active
-              ? "bg-white/10 text-white font-semibold border border-white/15 shadow-sm"
-              : "text-neutral-400 hover:text-white hover:bg-white/5"
+              ? "bg-slate-900 text-white font-semibold border border-slate-900 shadow-sm"
+              : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
             }
           `}
           onClick={() => {
@@ -400,7 +400,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           }}>
           <span className="w-5 h-5 flex items-center justify-center shrink-0">
             <Icon
-              className={`text-base ${active ? "text-white" : "text-neutral-400"
+              className={`text-base ${active ? "text-white" : "text-slate-500"
                 }`}
             />
           </span>
@@ -432,7 +432,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             <motion.div
               animate={{ rotate: isExpanded ? 180 : 0 }}
               transition={{ duration: 0.2 }}>
-              <ChevronDown className="text-neutral-400 text-sm w-4 h-4" />
+              <ChevronDown className="text-slate-500 text-sm w-4 h-4" />
             </motion.div>
           )}
         </div>
@@ -446,7 +446,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="overflow-hidden">
-              <div className="ml-4 mt-1 pl-3 border-l border-neutral-800 space-y-1">
+              <div className="ml-4 mt-1 pl-3 border-l border-slate-200 space-y-1">
                 {item.children.map((child, index) => {
                   const childRoute = getChildRoute(item.route, child);
                   const isChildActive =
@@ -463,8 +463,8 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                       className={`
                         px-3 py-2 text-xs rounded-lg transition-colors cursor-pointer flex justify-between items-center
                         ${isChildActive
-                          ? "bg-white/10 text-white font-semibold"
-                          : "text-neutral-400 hover:text-white hover:bg-white/5"
+                          ? "bg-slate-900 text-white font-semibold"
+                          : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
                         }
                       `}>
                       <span>{child}</span>
@@ -494,12 +494,12 @@ const AdminSidebar = ({ isOpen, onClose }) => {
 
   // Sidebar content
   const sidebarContent = (
-    <div className="h-full w-full flex flex-col bg-neutral-950 border-r border-neutral-800/60 overflow-hidden">
+    <div className="h-full w-full flex flex-col bg-white border-r border-slate-200 overflow-hidden">
       {/* Header Section */}
-      <div className="shrink-0 px-3 py-3 border-b border-neutral-800/60 bg-neutral-900">
+      <div className="shrink-0 px-3 py-3 border-b border-slate-200 bg-slate-50">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3.5">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/5 bg-white/5 p-1 transition-all">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 p-1 transition-all">
               <img
                 src={effectiveLogo}
                 alt={servicesTitle}
@@ -512,7 +512,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
               />
             </div>
             <div className="flex flex-col min-w-0">
-              <h3 className="text-[15px] font-extrabold leading-tight text-white tracking-tight truncate">
+              <h3 className="text-[15px] font-extrabold leading-tight text-slate-900 tracking-tight truncate">
                 {servicesTitle}
               </h3>
               <div className="mt-1 flex items-center gap-1.5">
@@ -527,7 +527,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           {/* Close Button - Mobile Only */}
           <button
             onClick={onClose}
-            className="p-1.5 hover:bg-white/5 rounded-lg transition-colors flex-shrink-0 lg:hidden text-neutral-300 hover:text-white"
+            className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors flex-shrink-0 lg:hidden text-slate-600 hover:text-slate-900"
             aria-label="Close sidebar">
             <FiX className="text-xl" />
           </button>
@@ -535,40 +535,40 @@ const AdminSidebar = ({ isOpen, onClose }) => {
 
         {/* Admin Panel Label */}
         <div className="mb-2">
-          <h2 className="text-xs font-bold text-neutral-400 uppercase tracking-wider text-left">
+          <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider text-left">
             Admin Panel
           </h2>
         </div>
 
         {/* Platform module switcher */}
-        <div className="mb-3 bg-neutral-900/90 p-1.5 rounded-xl border border-white/10 shadow-sm space-y-1.5">
+        <div className="mb-3 bg-slate-100 p-1.5 rounded-xl border border-slate-200 shadow-sm space-y-1.5">
           {/* Row 1: Delivery, Rides, Services */}
           <div className="grid grid-cols-3 gap-1.5">
             <button
               type="button"
               onClick={() => navigate("/admin/food")}
               title="Food Delivery Admin"
-              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-slate-500 hover:text-slate-800 hover:bg-slate-100"
             >
-              <UtensilsCrossed className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <UtensilsCrossed className="w-3.5 h-3.5 shrink-0 text-slate-500" />
               <span className="truncate">Food</span>
             </button>
             <button
               type="button"
               onClick={() => navigate("/taxi/admin/dashboard")}
               title="Taxi & Rides Admin"
-              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-slate-500 hover:text-slate-800 hover:bg-slate-100"
             >
-              <Truck className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <Truck className="w-3.5 h-3.5 shrink-0 text-slate-500" />
               <span className="truncate">Taxi</span>
             </button>
             <button
               type="button"
               onClick={() => navigate("/admin/sp/dashboard")}
               title="Home & Worker Services Admin"
-              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-bold rounded-lg transition-all duration-200 truncate bg-white text-neutral-950 shadow-sm"
+              className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-bold rounded-lg transition-all duration-200 truncate bg-slate-900 text-white shadow-sm"
             >
-              <Wrench className="w-3.5 h-3.5 shrink-0 text-neutral-950" />
+              <Wrench className="w-3.5 h-3.5 shrink-0 text-white" />
               <span className="truncate">Services</span>
             </button>
           </div>
@@ -579,18 +579,18 @@ const AdminSidebar = ({ isOpen, onClose }) => {
               type="button"
               onClick={() => navigate("/admin/quick-commerce")}
               title="Quick Commerce (Grocery) Admin"
-              className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+              className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-slate-500 hover:text-slate-800 hover:bg-slate-100"
             >
-              <ShoppingBasket className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <ShoppingBasket className="w-3.5 h-3.5 shrink-0 text-slate-500" />
               <span className="truncate">Quick Store</span>
             </button>
             <button
               type="button"
               onClick={() => navigate("/admin/medical")}
               title="Pharmacy & Medical Admin"
-              className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
+              className="flex items-center justify-center gap-1.5 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 truncate text-slate-500 hover:text-slate-800 hover:bg-slate-100"
             >
-              <Pill className="w-3.5 h-3.5 shrink-0 text-neutral-500" />
+              <Pill className="w-3.5 h-3.5 shrink-0 text-slate-500" />
               <span className="truncate">Medical</span>
             </button>
           </div>
@@ -598,18 +598,18 @@ const AdminSidebar = ({ isOpen, onClose }) => {
 
         {/* Search Bar */}
         <div className="relative">
-          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-3.5 h-3.5 z-10" />
+          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 w-3.5 h-3.5 z-10" />
           <input
             type="text"
             placeholder="Search Menu..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`w-full pl-9 ${searchQuery ? 'pr-8' : 'pr-3'} py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-white/30 focus:border-neutral-700 transition-all`}
+            className={`w-full pl-9 ${searchQuery ? 'pr-8' : 'pr-3'} py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300 focus:border-slate-300 transition-all`}
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-white transition-colors"
+              className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-slate-900 transition-colors"
             >
               <FiX className="w-3.5 h-3.5" />
             </button>
@@ -621,8 +621,8 @@ const AdminSidebar = ({ isOpen, onClose }) => {
       <nav className="flex-1 overflow-y-auto p-3 admin-sidebar-scroll lg:pb-3 space-y-1">
         {displayedMenu.length === 0 && searchQuery.trim() ? (
           <div className="px-3 py-8 text-center">
-            <p className="text-neutral-400 text-xs font-medium">No menu items found</p>
-            <p className="text-neutral-500 text-xs mt-1">Try a different search term</p>
+            <p className="text-slate-500 text-xs font-medium">No menu items found</p>
+            <p className="text-slate-500 text-xs mt-1">Try a different search term</p>
           </div>
         ) : (
           displayedMenu.map((item, index) => {
@@ -633,8 +633,8 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             return (
               <div key={item.route || item.title}>
                 {showCatHeader && (
-                  <div className={`px-3 ${index > 0 ? "pt-3.5 pb-1.5 border-t border-neutral-800/60 mt-1.5" : "pt-1 pb-1.5"}`}>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                  <div className={`px-3 ${index > 0 ? "pt-3.5 pb-1.5 border-t border-slate-200 mt-1.5" : "pt-1 pb-1.5"}`}>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                       {currentCat}
                     </span>
                   </div>
@@ -655,18 +655,18 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           width: 5px;
         }
         .admin-sidebar-scroll::-webkit-scrollbar-track {
-          background: rgba(17, 24, 39, 0.4);
+          background: rgba(241, 245, 249, 1);
         }
         .admin-sidebar-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.15);
+          background: rgba(15, 23, 42, 0.15);
           border-radius: 4px;
         }
         .admin-sidebar-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.3);
+          background: rgba(15, 23, 42, 0.3);
         }
         .admin-sidebar-scroll {
           scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(17, 24, 39, 0.4);
+          scrollbar-color: rgba(15, 23, 42, 0.15) rgba(241, 245, 249, 1);
         }
       `}</style>
 
