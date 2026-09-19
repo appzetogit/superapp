@@ -1082,10 +1082,6 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
                 Taxi
               </button>
               )}
-              {/* SERVICE PROVIDER TAB -- hidden on request, NOT removed.
-                  Restore by deleting this comment wrapper. The /admin/sp routes are
-                  commented out in AdminRouter.jsx alongside it; both must come back
-                  together or this tab navigates to a dead route.
               {serviceAccess.serviceProvider && (
               <button
                 type="button"
@@ -1106,7 +1102,6 @@ export default function AdminSidebar({ isOpen = false, onClose, onCollapseChange
                 Services
               </button>
               )}
-              */}
               {serviceAccess.quickCommerce && (
               <button
                 type="button"

@@ -142,7 +142,7 @@ const AdminLogin = lazy(() => import("@food/pages/admin/auth/AdminLogin"));
 const AdminSignup = lazy(() => import("@food/pages/admin/auth/AdminSignup"));
 const AdminForgotPassword = lazy(() => import("@food/pages/admin/auth/AdminForgotPassword"));
 // Hidden with the /admin/sp route below; uncomment both together.
-// const SPAdminRoutes = lazy(() => import("@sp/admin/routes"));
+const SPAdminRoutes = lazy(() => import("@sp/admin/routes"));
 const FoodSubadmins = lazy(() => import("@food/pages/admin/management/FoodSubadmins"));
 const MedicalPrescriptionOrders = lazy(() => import("@food/pages/admin/medical/PrescriptionOrders"));
 const MedicalDrugLicences = lazy(() => import("@food/pages/admin/medical/DrugLicences"));
@@ -333,20 +333,13 @@ export default function AdminRouter() {
         <Route path="forgot-password" element={<AdminForgotPassword />} />
         <Route path="signup" element={<AdminSignup />} />
 
-        {/* SERVICE PROVIDER ADMIN -- HIDDEN ON REQUEST, NOT REMOVED.
-            To restore: uncomment the <Route path="sp/*"> block below, the
-            SPAdminRoutes import above, and the Services tab in AdminSidebar.jsx.
-            All three go together; a route without its tab is unreachable, and a
-            tab without its route lands on the catch-all.
-
-            Original note follows.
+        {/* Service Provider admin.
             Deliberately OUTSIDE master's AdminLayout: the SP pages ship their own
             AdminLayout (sidebar + a position:fixed header), so nesting them inside
             master's shell stacked two sidebars and overlapped two headers. Taxi has
             the same shape and is handled the same way -- it owns its chrome inside
             TaxiApp. Auth is still shared: same ProtectedRoute, same /admin/login,
-            same token.
-
+            same token. */}
         <Route
           path="sp/*"
           element={
@@ -355,7 +348,6 @@ export default function AdminRouter() {
             </ProtectedRoute>
           }
         />
-        */}
 
         {/* Protected Routes - With Layout */}
         <Route
