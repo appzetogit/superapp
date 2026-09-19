@@ -1,49 +1,61 @@
-import React, { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { Music, Mic, Navigation, ShieldCheck, Mail, Globe, Zap, Star } from 'lucide-react'
+import React, { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Smartphone, Wallet, ShieldCheck, Zap, Bell, CheckCircle2, Star, Sparkles, UtensilsCrossed, ShoppingBag, Wrench, Car } from 'lucide-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-
 gsap.registerPlugin(ScrollTrigger)
 
-const features = [
+const superFeatures = [
   {
-    icon: Music, title: 'Personalized Content',
-    description: 'Stream music, play podcasts, or join premium mobile games directly on the in-car console.',
-    color: '#ff5100'
+    icon: Wallet,
+    title: 'One Unified Wallet',
+    description: 'Use a single Appzeto Wallet balance across food delivery, 10-min groceries, home services, and cab rides with instant cashback.',
+    color: '#10B981'
   },
   {
-    icon: Mic, title: 'Interactive Voice Assistant',
-    description: 'Adjust cabin temperature, set destination routes, or change music tracks hands-free.',
-    color: '#e11d48'
+    icon: Bell,
+    title: 'Simultaneous Multi-Order Tracking',
+    description: 'Track your dinner delivery while booking a ride home and scheduling an AC technician for tomorrow — all on one screen.',
+    color: '#0284C7'
   },
   {
-    icon: Navigation, title: 'Real-Time Recommendations',
-    description: 'Receive traffic-optimized navigation guides and localized tips during your transit.',
-    color: '#1d4ed8'
+    icon: ShieldCheck,
+    title: 'Bank-Grade Security & Safety Desk',
+    description: '256-bit encrypted transactions, strict driver background checks, verified technician IDs, and 24/7 dedicated SOS assistance.',
+    color: '#FF5722'
   },
   {
-    icon: Zap, title: 'Instant Booking Engine',
-    description: 'Our smart dispatch matches you to the nearest driver in under 60 seconds, 24/7.',
-    color: '#10b981'
-  },
+    icon: Zap,
+    title: 'Sub-Second Smart Dispatch',
+    description: 'Our proprietary hyper-local AI engine calculates the optimal route, driver, kitchen, and dark-store picker within 600 milliseconds.',
+    color: '#F59E0B'
+  }
 ]
 
 export default function Showcase() {
   const sectionRef = useRef(null)
   const leftRef = useRef(null)
-  const imageRef = useRef(null)
+  const phoneRef = useRef(null)
+  const [activeScreen, setActiveScreen] = useState('home')
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(leftRef.current?.children, {
-        x: -40, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+        x: -40,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: 'power3.out',
         scrollTrigger: { trigger: leftRef.current, start: 'top 80%', once: true }
       })
-      gsap.from(imageRef.current, {
-        x: 50, opacity: 0, scale: 0.95, duration: 1.0, ease: 'power3.out',
-        scrollTrigger: { trigger: imageRef.current, start: 'top 82%', once: true }
+      gsap.from(phoneRef.current, {
+        x: 40,
+        opacity: 0,
+        scale: 0.95,
+        duration: 1.0,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: phoneRef.current, start: 'top 82%', once: true }
       })
     }, sectionRef)
     return () => ctx.revert()
@@ -52,136 +64,133 @@ export default function Showcase() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 overflow-hidden relative border-t border-slate-800"
-      style={{ fontFamily: "'Poppins', sans-serif", background: '#060B0A' }}
+      className="py-24 overflow-hidden relative border-t border-slate-800 bg-[#060B0A] text-white"
+      style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}
     >
-      {/* Background effects */}
+      {/* Background ambient lighting */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] rounded-full bg-[#ff5100]/[0.04] blur-[140px]" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full bg-[#1d4ed8]/[0.04] blur-[120px]" />
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }}
-        />
+        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] rounded-full bg-[#00838F]/10 blur-[150px]" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full bg-[#FF5722]/10 blur-[140px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-
-        {/* Single unified two-column layout — text left, image right, same row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center">
-
-          {/* Left Column: All text + features */}
-          <div ref={leftRef} className="text-left space-y-8">
-
-            {/* Section label */}
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-1">
-              Smart Transit
-            </p>
-
-            {/* Main heading */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Value Prop */}
+          <div ref={leftRef} className="lg:col-span-7 space-y-8 text-left">
             <div className="space-y-4">
-              <h2 className="text-3xl sm:text-4xl xl:text-5xl font-black text-white tracking-tight leading-tight">
-                Comfort <span className="text-slate-600">•</span> Convenience <span className="text-slate-600">•</span> Safety
-              </h2>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#10b981]/10 border border-[#10b981]/20 text-[#10b981] text-[10px] font-black uppercase tracking-wider">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                Passenger Insurance Included
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black uppercase tracking-widest">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Next-Gen Architecture</span>
               </div>
-              <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-lg">
-                Enrolling 1 Lac+ Drivers across India. Quick Drop does more than just drive you — interactive voice controls, media playlists, and local insights directly to your ride.
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                Designed as a True{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00838F] via-[#0284C7] via-[#FF5722] to-[#10B981]">
+                  Million-Dollar
+                </span>{' '}
+                Platform.
+              </h2>
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl">
+                Forget cluttering your phone with dozens of single-purpose apps. Appzeto merges food delivery, 10-minute grocery commerce, on-demand home service technicians, and mobility into one lightweight, ultra-responsive ecosystem.
               </p>
             </div>
 
-            {/* Feature Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {features.map((feature, index) => {
-                const Icon = feature.icon
+            {/* Feature Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              {superFeatures.map((feat, idx) => {
+                const Icon = feat.icon
                 return (
                   <div
-                    key={index}
-                    className="group p-4 rounded-2xl border border-slate-800 hover:border-slate-700 bg-slate-900/40 hover:bg-slate-900/70 transition-all duration-300 cursor-default"
+                    key={idx}
+                    className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700 transition-all hover:bg-slate-900 group text-left"
                   >
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center mb-3 transition-all duration-300 group-hover:scale-110"
-                      style={{ background: `${feature.color}15`, border: `1px solid ${feature.color}25`, color: feature.color }}
+                      className="w-10 h-10 rounded-xl flex items-center justify-center text-white mb-3 shadow-md group-hover:scale-110 transition-transform"
+                      style={{ background: feat.color }}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <h5 className="text-xs font-bold text-white mb-1 group-hover:text-slate-100 transition-colors">{feature.title}</h5>
-                    <p className="text-[11px] text-slate-500 leading-relaxed group-hover:text-slate-400 transition-colors">{feature.description}</p>
+                    <h3 className="text-base font-bold text-white mb-1">{feat.title}</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">{feat.description}</p>
                   </div>
                 )
               })}
             </div>
-
-            {/* Contact links */}
-            <div className="pt-6 border-t border-slate-800/60 flex flex-col sm:flex-row gap-4 text-xs text-slate-500">
-              <a href="mailto:k9bharatrides@gmail.com" className="flex items-center gap-1.5 hover:text-[#10b981] transition-colors">
-                <Mail className="w-4 h-4 text-[#10b981]" />
-                k9bharatrides@gmail.com
-              </a>
-              <a href="https://quickdropsindia.com" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#10b981] transition-colors">
-                <Globe className="w-4 h-4 text-[#10b981]" />
-                quickdropsindia.com
-              </a>
-            </div>
           </div>
 
-          {/* Right Column: Showcase 3D Grid */}
-          <div ref={imageRef} className="relative">
-            {/* Animated glow ring */}
-            <div
-              className="absolute inset-0 rounded-[36px] blur-xl opacity-20 animate-pulse"
-              style={{ background: 'linear-gradient(135deg, #1d4ed8, #10b981)', animationDuration: '4s' }}
-            />
-
-            <div className="relative rounded-[32px] border border-slate-700/60 shadow-2xl group h-[320px] sm:h-[460px] flex items-center justify-center bg-slate-900/50 p-4">
-              {/* Inner mesh */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#060B0A]/80 via-[#060B0A]/20 to-transparent z-10 pointer-events-none rounded-[32px]" />
-
-              <div className="grid grid-cols-2 gap-4 w-full h-full z-0" style={{ perspective: '1000px' }}>
-                {[
-                  { src: '/food/delivery2.jpg', delay: 0 },
-                  { src: '/food/taxi1.jpeg', delay: 0.15 },
-                  { src: '/food/taxi2.jpeg', delay: 0.3 },
-                  { src: '/food/delivery3.jpeg', delay: 0.45 }
-                ].map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, rotateX: 20, rotateY: -20, scale: 0.9 }}
-                    whileInView={{ opacity: 1, rotateX: 0, rotateY: 0, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: item.delay, type: 'spring', bounce: 0.4 }}
-                    whileHover={{ scale: 1.05, rotateX: 5, rotateY: -5, zIndex: 10, boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-                    className="relative rounded-2xl overflow-hidden border border-white/5 bg-slate-800"
-                    style={{ transformStyle: 'preserve-3d' }}
-                  >
-                    <img
-                      src={item.src}
-                      alt="Quick Drop Service"
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                  </motion.div>
-                ))}
+          {/* Right Column: Premium Interactive Smartphone Mockup */}
+          <div ref={phoneRef} className="lg:col-span-5 flex justify-center">
+            <div className="relative w-full max-w-[340px] rounded-[48px] bg-slate-950 p-4 border-[6px] border-slate-800 shadow-[0_25px_60px_-15px_rgba(0,131,143,0.3)]">
+              {/* Dynamic Island Notch */}
+              <div className="w-28 h-5 bg-slate-900 rounded-full mx-auto mb-3 flex items-center justify-center">
+                <span className="w-2.5 h-2.5 rounded-full bg-slate-800 mr-2" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </div>
 
-              {/* Float badges */}
-              <div className="absolute top-5 left-5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-white text-[9px] font-black uppercase tracking-wider shadow-lg z-20 hover:scale-105 transition-transform cursor-pointer">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#10b981]" />
-                100% Insured
-              </div>
+              {/* In-Phone Screen */}
+              <div className="rounded-[36px] bg-slate-900 p-4 space-y-4 text-left border border-slate-800/60 overflow-hidden">
+                {/* Phone Header */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Current Location</p>
+                    <p className="text-xs font-bold text-white flex items-center gap-1">
+                      Siliguri Central 📍
+                    </p>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold">
+                    👤
+                  </div>
+                </div>
 
-              <div className="absolute bottom-5 right-5 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#1d4ed8] to-[#10b981] text-white text-[10px] font-black uppercase tracking-wider shadow-lg z-20 hover:scale-105 transition-transform cursor-pointer">
-                Smart Fleet & Delivery
+                {/* 4 Super App Mini Icons Row */}
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  <div className="p-2 rounded-xl bg-orange-500/15 border border-orange-500/30">
+                    <UtensilsCrossed className="w-5 h-5 text-[#FF5722] mx-auto mb-1" />
+                    <p className="text-[9px] font-bold text-orange-400">Food</p>
+                  </div>
+                  <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30">
+                    <ShoppingBag className="w-5 h-5 text-[#10B981] mx-auto mb-1" />
+                    <p className="text-[9px] font-bold text-emerald-400">Quick</p>
+                  </div>
+                  <div className="p-2 rounded-xl bg-sky-500/15 border border-sky-500/30">
+                    <Wrench className="w-5 h-5 text-[#0284C7] mx-auto mb-1" />
+                    <p className="text-[9px] font-bold text-sky-400">Services</p>
+                  </div>
+                  <div className="p-2 rounded-xl bg-amber-500/15 border border-amber-500/30">
+                    <Car className="w-5 h-5 text-[#F59E0B] mx-auto mb-1" />
+                    <p className="text-[9px] font-bold text-amber-400">Cabs</p>
+                  </div>
+                </div>
+
+                {/* Live Activity Widget in Phone */}
+                <div className="p-3 rounded-2xl bg-gradient-to-r from-teal-950/80 to-slate-900 border border-teal-500/30 space-y-2">
+                  <div className="flex items-center justify-between text-[10px]">
+                    <span className="font-bold text-teal-400 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping" />
+                      Active Super-Order
+                    </span>
+                    <span className="text-slate-400">ETA 7 mins</span>
+                  </div>
+                  <p className="text-xs font-bold text-white">
+                    Quick Mart Groceries on the way 🛵
+                  </p>
+                  <div className="h-1 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="h-full bg-emerald-400 w-3/4 animate-pulse" />
+                  </div>
+                </div>
+
+                {/* Second Activity Widget */}
+                <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                  <div className="flex items-center justify-between text-[10px]">
+                    <span className="font-bold text-amber-400">Scheduled Ride</span>
+                    <span className="text-slate-400">Today 5:30 PM</span>
+                  </div>
+                  <p className="text-xs font-semibold text-slate-300">
+                    Airport Express Sedan Confirmed
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>

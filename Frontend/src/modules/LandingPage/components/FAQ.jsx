@@ -1,115 +1,107 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, Minus } from 'lucide-react'
+import { Plus, Minus, HelpCircle, Sparkles } from 'lucide-react'
 
-const defaultFaqs = [
+const appzetoFaqs = [
   {
-    question: 'What services are supported by Quick Drop?',
-    answer: 'Quick Drop is an all-in-one super-app supporting Ride Hailing (Taxi & Cab Sharing), Food & Dining Delivery, secure Parcel Courier Services, pre-scheduled Airport Transfers, Hourly Vehicle Rentals, and commercial Cargo/Logistics.'
+    question: 'What services are unified under the Appzeto Super App?',
+    answer: 'Appzeto is an all-in-one everyday super-app combining four core verticals: (1) Food Delivery from top city restaurants, (2) Quick Commerce groceries delivered in under 10 minutes, (3) On-Demand certified Service Providers (AC repair, electricians, plumbers, house cleaners & salon), and (4) Taxi & Mobility (bike taxis, autos, comfort sedans, SUVs, and airport transfers).'
   },
   {
-    question: 'How do I register as a driver partner?',
-    answer: 'You can sign up directly by clicking the "Register as Driver" CTA on this page or visiting the "/taxi/signup" portal. You will need to upload your valid driver license, vehicle registry credentials, and complete a background verification checklist.'
+    question: 'How does Appzeto achieve sub-10-minute grocery delivery?',
+    answer: 'Our Quick Commerce network operates strategically placed hyperlocal micro-fulfillment dark stores across every major urban sector. When you order, our pickers bag items in under 2 minutes, and our dedicated dispatch fleet delivers to your address within 8 to 10 minutes.'
   },
   {
-    question: 'How do restaurant partners get paid?',
-    answer: 'Restaurant orders are managed through our advanced Restaurant Dashboard. Payments are calculated daily and paid directly into your verified bank account or digital wallet.'
+    question: 'How are Service Provider technicians vetted and certified?',
+    answer: 'Every technician on the Appzeto platform undergoes a strict 4-stage screening process: government ID verification, criminal background check, practical trade skills testing, and customer etiquette training. All home services also come backed by our standard 30-day rework warranty.'
   },
   {
-    question: 'Is in-app payment secure?',
-    answer: 'Yes. Quick Drop utilizes secure SSL encryption and integrated payment gateways to secure credit cards, digital wallets, UPI, and bank transfers.'
+    question: 'Can I pay for all services using a single Appzeto Wallet?',
+    answer: 'Yes! Appzeto features a unified digital wallet balance that can be used seamlessly across food delivery, quick groceries, home service bookings, and cab rides. We also support all major UPI apps (GPay, PhonePe, Paytm), credit/debit cards, net banking, and Cash on Delivery.'
   },
   {
-    question: 'Can I schedule airport transfers in advance?',
-    answer: 'Absolutely. The Airport Transfer module allows you to pre-schedule rides hours or days in advance. Simply select the transfer option, specify your flight details, and a driver will be dispatched to match your schedule.'
+    question: 'Does Appzeto charge peak surge pricing on taxi rides?',
+    answer: 'Appzeto is committed to fair and transparent transportation. We do not enforce exorbitant hidden surge multipliers during peak hours, and all fares are clearly displayed upfront before you confirm your ride.'
+  },
+  {
+    question: 'How do I register my restaurant, grocery shop, or driving vehicle?',
+    answer: 'Joining the Appzeto Partner Network takes just minutes! Click on "Partner With Us" at the top of the page. You can register as a Driver Captain at /taxi/signup or as a Restaurant, Grocery Merchant, or Service Technician at /partner with fast 24-hour verification.'
   }
 ]
 
 export default function FAQ({ settings }) {
-  const [openIdx, setOpenIdx] = useState(null)
-  const faqs = settings?.faqs && settings.faqs.length > 0 ? settings.faqs : defaultFaqs
+  const [openIdx, setOpenIdx] = useState(0)
+  const faqs = settings?.faqs && settings.faqs.length > 0 ? settings.faqs : appzetoFaqs
 
   const toggleFaq = (idx) => setOpenIdx(openIdx === idx ? null : idx)
 
   return (
-    <section id="faq" className="py-20 overflow-hidden relative bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
-      {/* Dot grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.035] pointer-events-none"
-        style={{ backgroundImage: 'radial-gradient(rgba(15,23,42,0.2) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
-      />
-
-      {/* Subtle glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-[#ff5100]/[0.015] blur-[120px] pointer-events-none" />
-
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-
-        {/* Header — editorial style */}
-        <div className="text-left mb-16 space-y-4 border-b border-slate-200 pb-10">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">
-            FAQ
-          </p>
-          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight max-w-xl">
-            Have Questions?<br />
-            <span className="text-slate-400">We Have Answers.</span>
+    <section
+      id="faq"
+      className="py-24 overflow-hidden relative bg-white border-t border-slate-100"
+      style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}
+    >
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-16 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#00838F]/10 border border-[#00838F]/20 text-[#00838F] text-xs font-black uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Got Questions?</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Frequently Asked{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00838F] via-[#0284C7] to-[#10B981]">
+              Questions.
+            </span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-500 max-w-lg leading-relaxed">
-            Quick answers to common questions on our super-app services, rider accounts, and partner registrations.
+          <p className="text-sm sm:text-base text-slate-500 max-w-lg mx-auto leading-relaxed">
+            Everything you need to know about the Appzeto Super App ecosystem, payments, and safety.
           </p>
         </div>
 
-        {/* FAQ Accordion — numbered editorial style */}
-        <div className="space-y-0 text-left divide-y divide-slate-100">
+        {/* FAQ Accordion */}
+        <div className="space-y-3 text-left">
           {faqs.map((faq, idx) => {
             const isOpen = openIdx === idx
-            const num = String(idx + 1).padStart(2, '0')
             return (
-              <div key={idx} className="group">
+              <div
+                key={idx}
+                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                  isOpen
+                    ? 'bg-slate-50/80 border-[#00838F]/40 shadow-md'
+                    : 'bg-white border-slate-200/80 hover:border-slate-300'
+                }`}
+              >
                 <button
+                  type="button"
                   onClick={() => toggleFaq(idx)}
-                  className="w-full flex items-start gap-6 py-7 text-left focus:outline-none"
+                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left focus:outline-none cursor-pointer gap-4"
                 >
-                  {/* Number label */}
-                  <span
-                    className="text-sm font-black tabular-nums shrink-0 mt-0.5 transition-colors duration-300 w-8"
-                    style={{ color: isOpen ? '#ff5100' : '#cbd5e1' }}
-                  >
-                    {num}
-                  </span>
-
-                  {/* Question */}
-                  <span className={`flex-1 font-bold text-base sm:text-lg leading-snug pr-4 transition-colors duration-300 ${isOpen ? 'text-slate-900' : 'text-slate-700 group-hover:text-slate-900'}`}>
+                  <span className="font-bold text-base sm:text-lg text-slate-900 leading-snug">
                     {faq.question}
                   </span>
-
-                  {/* Toggle Icon */}
                   <div
-                    className="p-2 rounded-xl shrink-0 transition-all duration-300 border mt-0.5"
-                    style={{
-                      background: isOpen ? 'linear-gradient(135deg, #ff5100, #e11d48)' : 'transparent',
-                      borderColor: isOpen ? 'transparent' : '#e2e8f0',
-                      color: isOpen ? 'white' : '#64748b',
-                      transform: isOpen ? 'scale(1.05)' : 'scale(1)',
-                      boxShadow: isOpen ? '0 4px 16px rgba(255,81,0,0.25)' : ''
-                    }}
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200 ${
+                      isOpen
+                        ? 'bg-[#00838F] text-white rotate-180'
+                        : 'bg-slate-100 text-slate-600'
+                    }`}
                   >
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </div>
                 </button>
 
-                <AnimatePresence initial={false}>
+                <AnimatePresence>
                   {isOpen && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
                     >
-                      <div className="pl-14 pr-12 pb-7 text-slate-500 text-sm sm:text-base leading-relaxed">
-                        {/* Colored left accent */}
-                        <div className="relative pl-5 border-l-2 border-[#ff5100]/30">
-                          {faq.answer}
-                        </div>
+                      <div className="px-5 sm:px-6 pb-6 pt-1 text-slate-600 text-sm leading-relaxed border-t border-slate-200/40">
+                        {faq.answer}
                       </div>
                     </motion.div>
                   )}
@@ -118,18 +110,6 @@ export default function FAQ({ settings }) {
             )
           })}
         </div>
-
-        {/* Bottom CTA */}
-        <div className="mt-16 pt-10 border-t border-slate-100 text-center">
-          <p className="text-slate-500 text-sm mb-4">Still have questions? Our support team is available 24/7.</p>
-          <a
-            href="/support"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full font-bold text-sm text-white k9-btn-glow-pulse"
-          >
-            Contact Support →
-          </a>
-        </div>
-
       </div>
     </section>
   )

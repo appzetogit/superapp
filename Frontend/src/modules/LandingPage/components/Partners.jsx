@@ -1,29 +1,79 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Car, Store, ArrowRight, CheckCircle2, Zap } from 'lucide-react'
+import { Car, Store, ShoppingBag, Wrench, ArrowRight, CheckCircle2, Zap, Sparkles } from 'lucide-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const partners = [
+const partnerPrograms = [
   {
-    type: 'driver', icon: Car,
-    title: 'Become a Driver Partner',
-    subtitle: 'Drive and earn on your schedule',
-    description: 'Join our fleet of professional taxi and delivery partners. Take home higher earnings with low platform fees, flexible shifts, and instant wallet withdrawals.',
-    benefits: ['Flexible working hours', 'Competitive commissions', 'In-app navigation & safety features', 'Fast weekly or instant cash payouts'],
-    ctaText: 'Register as Driver', ctaHref: '/taxi/signup',
-    color: '#00EB79', gradient: 'from-[#00EB79] to-[#10b981]',
+    type: 'driver',
+    icon: Car,
+    title: 'Drive & Earn with Appzeto',
+    subtitle: 'Cab Captains, Auto & Bike Taxi Partners',
+    description: 'Join thousands of driver captains earning on their own schedule. Enjoy industry-low commission rates, live route optimization, and instant daily bank settlements.',
+    benefits: [
+      'Daily instant wallet cash withdrawals',
+      'Flexible work hours — choose your own shifts',
+      'Comprehensive in-app SOS & passenger verification',
+      'Bonus incentives for peak hours & weekly targets'
+    ],
+    ctaText: 'Register as Driver Captain',
+    ctaHref: '/taxi/signup',
+    color: '#F59E0B',
+    gradient: 'from-[#F59E0B] to-[#EAB308]',
   },
   {
-    type: 'restaurant', icon: Store,
-    title: 'Sell on Quick Drop',
-    subtitle: 'Restaurants, stores and medical stores',
-    description: 'List your restaurant, store or pharmacy on Quick Drop. Reach thousands of local customers and use our delivery fleet — register in minutes and start taking orders once approved.',
-    benefits: ['Access to extensive customer database', 'Advanced order & dashboard analytics', 'Flexible pricing & promotional campaigns', 'Professional delivery network integration'],
-    ctaText: 'Become a partner', ctaHref: '/partner',
-    color: '#FFB800', gradient: 'from-[#FFB800] to-[#ff5100]',
+    type: 'restaurant',
+    icon: Store,
+    title: 'Grow Your Restaurant Business',
+    subtitle: 'Dine-In, Takeaway & Cloud Kitchens',
+    description: 'Connect your kitchen with hungry food lovers across the city. Leverage our thermal delivery fleet, powerful analytics dashboard, and targeted local marketing campaigns.',
+    benefits: [
+      'Access to thousands of active daily diners',
+      'Advanced kitchen order dispatch management system',
+      'Customizable promotional deals & festival campaigns',
+      'Dedicated partner relationship manager'
+    ],
+    ctaText: 'Onboard Your Restaurant',
+    ctaHref: '/partner',
+    color: '#FF5722',
+    gradient: 'from-[#FF5722] to-[#FF8A00]',
+  },
+  {
+    type: 'merchant',
+    icon: ShoppingBag,
+    title: 'Join the 10-Min Quick Mart Network',
+    subtitle: 'Grocers, Supermarkets & Pharmacies',
+    description: 'Transform your retail store into a hyper-efficient 10-minute fulfillment hub. Tap into our instant dispatch couriers to multiply your daily order volume.',
+    benefits: [
+      'Real-time automated inventory sync & barcoding',
+      'Instant order delivery to nearby 3-5 km radiuses',
+      'Automated digital invoicing & GST reporting',
+      'Zero upfront technology setup expenditure'
+    ],
+    ctaText: 'Register Retail Store',
+    ctaHref: '/partner',
+    color: '#10B981',
+    gradient: 'from-[#10B981] to-[#059669]',
+  },
+  {
+    type: 'service',
+    icon: Wrench,
+    title: 'Partner as Certified Service Pro',
+    subtitle: 'Electricians, Plumbers, AC Techs & Beauticians',
+    description: 'Are you a licensed or skilled professional? Get guaranteed steady customer bookings directly on your smartphone without spending a rupee on lead generation.',
+    benefits: [
+      'Guaranteed high-paying customer bookings',
+      'Free technician toolkit insurance & safety gear',
+      'Weekly automated direct bank deposits',
+      'Professional upskilling & certification programs'
+    ],
+    ctaText: 'Join as Certified Pro',
+    ctaHref: '/partner',
+    color: '#0284C7',
+    gradient: 'from-[#0284C7] to-[#00A3FF]',
   }
 ]
 
@@ -33,17 +83,25 @@ export default function Partners() {
   const headerRef = useRef(null)
   const cardRef = useRef(null)
 
-  const activePartner = partners.find(p => p.type === activeTab)
+  const activePartner = partnerPrograms.find((p) => p.type === activeTab) || partnerPrograms[0]
   const IconComponent = activePartner.icon
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(headerRef.current?.children, {
-        y: 30, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out',
+        y: 30,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
         scrollTrigger: { trigger: headerRef.current, start: 'top 85%', once: true }
       })
       gsap.from(cardRef.current, {
-        y: 40, opacity: 0, scale: 0.97, duration: 0.8, ease: 'power3.out',
+        y: 40,
+        opacity: 0,
+        scale: 0.98,
+        duration: 0.8,
+        ease: 'power3.out',
         scrollTrigger: { trigger: cardRef.current, start: 'top 80%', once: true }
       })
     }, sectionRef)
@@ -51,153 +109,134 @@ export default function Partners() {
   }, [])
 
   return (
-    <section id="partners" ref={sectionRef} className="pt-12 pb-20 relative overflow-hidden bg-slate-950 text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-[#00EB79]/[0.03] blur-[140px]" />
-        <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full bg-[#FFB800]/[0.03] blur-[120px]" />
-        <div
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: 'radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px)',
-            backgroundSize: '24px 24px'
-          }}
-        />
-      </div>
-
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-
-        {/* Header */}
-        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 space-y-4">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-1">Partnerships</p>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Grow and{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff5100] via-[#e11d48] via-[#1d4ed8] to-[#10b981]">
-              Earn
-            </span>{' '}
-            with Quick Drop
+    <section
+      id="partners"
+      ref={sectionRef}
+      className="py-24 relative overflow-hidden bg-slate-950 text-white"
+      style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/15 text-emerald-400 text-xs font-black uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Appzeto Ecosystem Partner Network</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+            Grow Your Income With{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5722] via-[#F59E0B] via-[#0284C7] to-[#10B981]">
+              Appzeto.
+            </span>
           </h2>
-          <p className="text-slate-400 text-sm leading-relaxed max-w-lg mx-auto">
-            We support localized economic growth. Whether you are an independent driver or a local culinary business, our tools are built to scale your business.
+          <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto leading-relaxed">
+            Whether you drive, cook, sell groceries, or fix homes — our unified platform is built to maximize your profits and simplify your work.
           </p>
         </div>
 
-        {/* Large Icon Toggle Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto mb-10">
-          {partners.map((partner) => {
-            const Icon = partner.icon
-            const isSelected = activeTab === partner.type
+        {/* 4 Partner Category Switcher Tabs */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-10 max-w-4xl mx-auto">
+          {partnerPrograms.map((p) => {
+            const PIcon = p.icon
+            const isSelected = activeTab === p.type
             return (
               <button
-                key={partner.type}
-                onClick={() => setActiveTab(partner.type)}
-                className="relative p-6 rounded-2xl border-2 text-center transition-all duration-300 group overflow-hidden"
-                style={{
-                  background: isSelected ? `linear-gradient(135deg, ${partner.color}15, ${partner.color}08)` : 'rgba(255,255,255,0.03)',
-                  borderColor: isSelected ? `${partner.color}50` : 'rgba(255,255,255,0.08)',
-                  boxShadow: isSelected ? `0 8px 30px ${partner.color}15` : ''
-                }}
+                key={p.type}
+                type="button"
+                onClick={() => setActiveTab(p.type)}
+                className={`flex items-center gap-2.5 px-4 sm:px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                  isSelected
+                    ? 'bg-white text-slate-950 shadow-xl scale-105'
+                    : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800'
+                }`}
               >
-                {isSelected && (
-                  <div
-                    className="absolute inset-0 rounded-2xl opacity-5 blur-2xl pointer-events-none"
-                    style={{ background: `radial-gradient(circle, ${partner.color}, transparent)` }}
-                  />
-                )}
                 <div
-                  className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:scale-110"
-                  style={{
-                    background: isSelected ? `linear-gradient(135deg, ${partner.color}30, ${partner.color}15)` : 'rgba(255,255,255,0.06)',
-                    color: isSelected ? partner.color : '#64748b'
-                  }}
+                  className="w-6 h-6 rounded-lg flex items-center justify-center text-white"
+                  style={{ background: p.color }}
                 >
-                  <Icon className="w-7 h-7" />
+                  <PIcon className="w-3.5 h-3.5" />
                 </div>
-                <p className={`text-xs font-black uppercase tracking-wide transition-colors ${isSelected ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'}`}>
-                  {partner.type}
-                </p>
+                <span>{p.title.split(' ')[0]} {p.title.split(' ')[1] || ''}</span>
               </button>
             )
           })}
         </div>
 
-        {/* Tab Content Card */}
+        {/* Dynamic Partner Showcase Card */}
         <div
           ref={cardRef}
-          className="rounded-[32px] border overflow-hidden relative"
-          style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))',
-            borderColor: 'rgba(255,255,255,0.08)',
-            backdropFilter: 'blur(20px)'
-          }}
+          className="rounded-[32px] overflow-hidden bg-slate-900 border border-slate-800 p-8 sm:p-12 max-w-5xl mx-auto text-left relative"
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.35 }}
-              className="grid grid-cols-1 md:grid-cols-12 gap-0 items-stretch"
-            >
-              {/* Left: Details */}
-              <div className="md:col-span-7 p-10 sm:p-12 space-y-6 border-b md:border-b-0 md:border-r border-white/[0.06]">
-                <div className="flex items-center gap-4">
-                  <div
-                    className="h-14 w-14 rounded-2xl flex items-center justify-center border transition-all"
-                    style={{ background: `${activePartner.color}15`, borderColor: `${activePartner.color}30`, color: activePartner.color }}
-                  >
-                    <IconComponent className="w-7 h-7" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">{activePartner.title}</h3>
-                    <p className="text-xs sm:text-sm font-semibold mt-0.5" style={{ color: activePartner.color }}>{activePartner.subtitle}</p>
-                  </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg"
+                  style={{ background: activePartner.color }}
+                >
+                  <IconComponent className="w-6 h-6" />
                 </div>
-
-                <p className="text-slate-400 text-sm leading-relaxed">{activePartner.description}</p>
-
-                {/* Benefits */}
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  {activePartner.benefits.map((benefit, bIdx) => (
-                    <motion.li
-                      key={bIdx}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: bIdx * 0.08, duration: 0.3 }}
-                      className="flex items-center gap-3 text-xs text-slate-300 font-medium"
-                    >
-                      <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: activePartner.color }} />
-                      <span>{benefit}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Right: CTA */}
-              <div className="md:col-span-5 p-10 sm:p-12 flex flex-col justify-center items-start gap-6">
                 <div>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                    Ready to get started? Register online and our onboarding team will reach out within 24 hours.
+                  <h3 className="text-2xl sm:text-3xl font-black text-white">{activePartner.title}</h3>
+                  <p className="text-xs font-semibold" style={{ color: activePartner.color }}>
+                    {activePartner.subtitle}
                   </p>
+                </div>
+              </div>
 
-                  {/* CTA with pulse ring */}
-                  <div className="relative w-fit">
-                    <a
-                      href={activePartner.ctaHref}
-                      className="relative inline-flex items-center gap-2.5 font-bold px-7 py-4 rounded-full text-white text-sm k9-btn-glow-pulse"
-                    >
-                      <Zap className="w-4 h-4" />
-                      {activePartner.ctaText}
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </a>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                {activePartner.description}
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                {activePartner.benefits.map((benefit, idx) => (
+                  <div key={idx} className="flex items-start gap-2.5">
+                    <CheckCircle2
+                      className="w-4 h-4 shrink-0 mt-0.5"
+                      style={{ color: activePartner.color }}
+                    />
+                    <span className="text-xs font-semibold text-slate-200">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-4">
+                <a
+                  href={activePartner.ctaHref}
+                  className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl text-white font-bold text-sm shadow-xl hover:brightness-110 active:scale-98 transition-all cursor-pointer"
+                  style={{ background: activePartner.color }}
+                >
+                  <span>{activePartner.ctaText}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+            {/* Right Interactive Highlights */}
+            <div className="lg:col-span-5 flex flex-col justify-center">
+              <div className="p-6 rounded-3xl bg-slate-950/80 border border-slate-800 space-y-4 text-left">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Partner Perks</span>
+                  <span className="text-xs font-bold text-emerald-400">Fast 24-Hr Approval</span>
+                </div>
+                <div className="space-y-3">
+                  <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80">
+                    <p className="text-xs font-bold text-white">Zero Setup Fee</p>
+                    <p className="text-[11px] text-slate-400">Register completely free with zero hidden onboarding costs.</p>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80">
+                    <p className="text-xs font-bold text-white">Direct Bank Settlements</p>
+                    <p className="text-[11px] text-slate-400">Automated UPI and NEFT transfers straight to your bank account.</p>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80">
+                    <p className="text-xs font-bold text-white">24/7 Dedicated Partner Hotline</p>
+                    <p className="text-[11px] text-slate-400">Priority helpline whenever you encounter any order or transit query.</p>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          </div>
         </div>
-
       </div>
     </section>
   )
